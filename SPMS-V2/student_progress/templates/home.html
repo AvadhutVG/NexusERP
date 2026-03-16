@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nexus ERP - Student Progress System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Added a distinct font for the brand -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5; /* Indigo */
+            --primary-hover: #4338ca;
+            --secondary: #64748b; /* Slate */
+            --bg-body: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 1rem; /* Increased padding for better spacing */
+            background: linear-gradient(to bottom, #ffffff 0%, var(--bg-body) 100%);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Brand Name Styling */
+        .brand-name {
+            font-family: 'Outfit', sans-serif; /* Distinct font family */
+            font-size: 4rem; /* Prominent size */
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: var(--primary); /* Brand color */
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+
+        /* System Title Styling */
+        .system-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 3rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 2.5rem; /* Slightly larger buttons */
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .teacher-btn {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+
+        .teacher-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(79, 70, 229, 0.3);
+        }
+
+        .student-btn {
+            background-color: white;
+            color: var(--text-main);
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .student-btn:hover {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        /* Info / Cards Section */
+        .info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: -3rem auto 3rem; /* Negative margin pulls it up into the hero space */
+            padding: 0 1.5rem;
+            width: 100%;
+            position: relative; /* Ensure it sits above if needed */
+            z-index: 10;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Stronger shadow */
+            border: 1px solid #f1f5f9;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: left;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #e2e8f0;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid #e2e8f0;
+            background-color: white;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .brand-name {
+                font-size: 3rem;
+            }
+            .system-title {
+                font-size: 1.25rem;
+            }
+            .info {
+                margin-top: 2rem;
+            }
+            .buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="hero">
+    <!-- Brand Name with distinctive font -->
+    <h1 class="brand-name">Nexus ERP</h1>
+    
+    <!-- System Title separated -->
+    <h2 class="system-title">Student Progress Management System</h2>
+    
+    <p>Track • Analyze • Monitor</p>
+
+    <div class="buttons">
+        <a href="/teacher-login/" class="btn teacher-btn">Teacher Login</a>
+        <a href="/student-login/" class="btn student-btn">Student Login</a>
+    </div>
+</div>
+
+<div class="info">
+    <div class="card">
+        <h3>Manage Students</h3>
+        <p>Teachers can add, edit and organize students easily.</p>
+    </div>
+
+    <div class="card">
+        <h3>Attendance Tracking</h3>
+        <p>Maintain day-wise attendance and analyze trends.</p>
+    </div>
+
+    <div class="card">
+        <h3>Marks & Analytics</h3>
+        <p>Enter marks and visualize performance using graphs.</p>
+    </div>
+</div>
+<!-- Footer -->
+    {% include "footer.html" %}
+
+</body>
+</html>

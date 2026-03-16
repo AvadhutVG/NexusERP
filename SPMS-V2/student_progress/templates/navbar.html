@@ -1,0 +1,101 @@
+<style>
+body{
+    margin: 0;
+    padding-top: 85px;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+/* ===== HEADER (THEME ALIGNED) ===== */
+.header {
+    background: white;
+    color: #1e293b;
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e2e8f0;
+    backdrop-filter: blur(8px);
+}
+
+/* Logo + title */
+.brand h2{
+    margin: 0;
+    font-size: 20px;
+    color: #1e293b;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Navigation container */
+.nav-links{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Normal buttons */
+.nav-links a{
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    background: transparent;
+}
+
+/* Hover effect (theme-consistent) */
+.nav-links a:hover{
+    background: #eef2ff;      /* soft indigo tint */
+    color: #4F46E5;           /* your primary color */
+    transform: translateY(-1px);
+}
+
+/* Special Logout button */
+.nav-links a.logout{
+    background: #ef4444;
+    color: white;
+}
+
+.nav-links a.logout:hover{
+    background: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 900px){
+    .header{
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 20px;
+    }
+
+    .nav-links{
+        margin-top: 10px;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+</style>
+
+<header class="header">
+
+<div class="brand">
+    <h2>🎓 Student Progress System</h2>
+</div>
+
+<div class="nav-links">
+    <a href="/teacher-dashboard/">Dashboard</a>
+    <a href="/manage-students/">Students</a>
+    <a href="/attendance/">Attendance</a>
+    <a href="/subjects/">Marks</a>
+    <a href="/teacher-logout/" class="logout">Logout</a>
+</div>
+
+</header>

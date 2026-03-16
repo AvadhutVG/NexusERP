@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Attendance - Student Progress System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* High Contrast Color Palette */
+            --primary: #3730a3; 
+            --primary-hover: #312e81;
+            
+            --bg-body: #F8FAFC;
+            --bg-card: #FFFFFF;
+            
+            /* Text Colors */
+            --text-main: #020617; 
+            --text-secondary: #334155; 
+            
+            --border-color: #94a3b8;
+            --radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Global Reset */
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding-top: 90px;
+            padding-bottom: 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #000000;
+            text-align: center;
+        }
+
+        /* ===== TOOLBAR (Select All) ===== */
+        .toolbar {
+            background-color: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .toolbar label {
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        input[type="checkbox"] {
+            width: 1.2rem;
+            height: 1.2rem;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        /* ===== TABLE STYLES ===== */
+        .table-container {
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #e2e8f0; /* Slightly darker header */
+            color: #0f172a;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            vertical-align: middle;
+            font-weight: 500;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* Center the checkbox column */
+        th:last-child, td:last-child {
+            text-align: center;
+            width: 120px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Back Link */
+        .back-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+{% include "navbar.html" %}
+
+<div class="container">
+    <div class="card">
+
+        <h2>Edit Attendance: {{ date }}</h2>
+
+        <div class="toolbar">
+            <input type="checkbox" id="selectAll">
+            <label for="selectAll">Select All Students (Mark Present)</label>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Roll No</th>
+                            <th style="width: 60%;">Name</th>
+                            <th>Present?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in students %}
+                        <tr>
+                            <td><strong>{{ s.roll_no }}</strong></td>
+                            <td>{{ s.name }}</td>
+                            <td>
+                                <input type="checkbox" name="present" value="{{ s.id }}"
+                                {% if s.id in present_ids %} checked {% endif %}>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="submit" class="btn-submit">Update Attendance</button>
+        </form>
+
+        <a href="/attendance/" class="back-link">
+            ← Cancel and Return to List
+        </a>
+
+    </div>
+</div>
+
+<script>
+    // Simple script to toggle all checkboxes
+    document.getElementById("selectAll").addEventListener("change", function(){
+        let checkboxes = document.getElementsByName("present");
+        for(let box of checkboxes){
+            box.checked = this.checked;
+        }
+    });
+</script>
+
+{% include "footer.html" %}
+
+</body>
+</html>

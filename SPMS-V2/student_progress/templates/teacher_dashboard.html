@@ -1,0 +1,214 @@
+{% include "navbar.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338ca;
+            --secondary: #64748b;
+            --bg-body: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --radius: 12px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            flex: 1; /* Pushes footer down */
+        }
+
+        /* ===== WELCOME SECTION ===== */
+        .welcome-box {
+            background: linear-gradient(135deg, #4F46E5 0%, #4338ca 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .welcome-box h2 {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .welcome-box p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* The code snippet style */
+        .code-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== CARDS GRID ===== */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: #cbd5e1;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            flex-grow: 1; /* Pushes button to bottom */
+        }
+
+        .card a {
+            width: 100%;
+            text-decoration: none;
+        }
+
+        .card button {
+            width: 100%;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Primary Action Style for Buttons on Hover */
+        .card:hover button {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Footer Placeholder Styling (if include fails) */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 1.5rem; }
+            .welcome-box { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <br><br><br>
+
+    <div class="container">
+
+        <!-- Welcome Banner -->
+        <div class="welcome-box">
+            <h2>Welcome, {{ teacher.username }}!</h2>
+            <p>
+                Default Student Password Code: 
+                <span class="code-box">{{ teacher.student_default_pass }}</span>
+            </p>
+        </div>
+
+        <!-- Dashboard Actions -->
+        <div class="cards">
+
+            <div class="card">
+                <h3>Manage Students</h3>
+                <p>Add new students, update profiles, or view the complete class list.</p>
+                <a href="/manage-students/">
+                    <button>Go to Students</button>
+                </a>
+            </div>
+
+            <div class="card">
+                <h3>Attendance</h3>
+                <p>Mark daily attendance and track student presence over time.</p>
+                <a href="/attendance/">
+                    <button>Open Attendance</button>
+                </a>
+            </div>
+
+            <div class="card">
+                <h3>Marks & Grading</h3>
+                <p>Input exam scores, manage subjects, and generate performance reports.</p>
+                <a href="/subjects/">
+                    <button>Open Marks</button>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    {% include "footer.html" %}
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<style>
+body{
+    margin: 0;
+    padding-top: 85px;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+/* ===== HEADER ===== */
+.header {
+    background: white;
+    color: #1e293b;
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e2e8f0;
+    backdrop-filter: blur(8px);
+}
+
+/* Logo + title + welcome area */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* Title */
+.brand h2{
+    margin: 0;
+    font-size: 20px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+/* Welcome badge — theme aligned */
+.welcome{
+    background: #eef2ff;   /* soft indigo tint */
+    color: #4F46E5;        /* your primary */
+    padding: 6px 14px;
+    border-radius: 999px;  /* pill style */
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Logout button */
+.nav-links a{
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    background: #ef4444;
+    color: white;
+}
+
+/* Hover effect */
+.nav-links a:hover{
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 900px){
+    .header{
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 20px;
+    }
+
+    .nav-links{
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+</style>
+
+
+<header class="header">
+
+<div class="brand">
+    <h2>🎓 Student Portal</h2>
+    <span class="welcome">
+        Welcome, {{ student.name }} (Roll No.: {{ student.roll_no }})
+    </span>
+</div>
+
+<div class="nav-links">
+    <a href="/student-logout/">Logout</a>
+</div>
+
+</header>

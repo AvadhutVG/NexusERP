@@ -1,0 +1,339 @@
+{% include "student_navbar.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Student Progress System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* High Contrast Color Palette */
+            --primary: #3730a3; 
+            --primary-hover: #312e81;
+            
+            --bg-body: #F8FAFC;
+            --bg-card: #FFFFFF;
+            
+            /* Text Colors */
+            --text-main: #020617; 
+            --text-secondary: #334155; 
+            
+            --border-color: #94a3b8;
+            --radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            
+            --danger: #991b1b;
+            --danger-bg: #fef2f2;
+            --danger-border: #fca5a5;
+        }
+
+        /* Global Reset */
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding-top: 90px;
+            padding-bottom: 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2, h3 {
+            margin-top: 0;
+            color: #000000;
+            font-weight: 800;
+        }
+
+        h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+        h3 { font-size: 1.25rem; margin-bottom: 1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+
+        /* ===== PROFILE SECTION ===== */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media(min-width: 768px) {
+            .profile-section {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: space-between;
+            }
+        }
+
+        .profile-details p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .profile-details b {
+            font-weight: 700;
+            color: var(--primary);
+            margin-right: 0.5rem;
+        }
+
+        /* Download Button */
+        .btn-download {
+            background-color: var(--danger-bg);
+            color: var(--danger);
+            border: 2px solid var(--danger-border);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.2s;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-download:hover {
+            background-color: #fee2e2;
+            border-color: #f87171;
+        }
+
+        /* ===== DASHBOARD GRID ===== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media(min-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* ===== TABLES ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #e0e7ff;
+            color: var(--primary);
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            border: 1px solid #c7d2fe;
+            margin-left: 0.5rem;
+        }
+
+        /* ===== PAGINATION ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            font-weight: 600;
+        }
+
+        .btn-page {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+
+        .btn-page:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* ===== CHARTS ===== */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+        
+        .section-spacer {
+            margin-top: 2rem;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- PROFILE CARD -->
+    <div class="card profile-section">
+        <div class="profile-details">
+            <h2>🎓 Student Profile</h2>
+            <p><b>Name:</b> {{ student.name }}</p>
+            <p><b>Roll No:</b> {{ student.roll_no }}</p>
+            <p><b>Class Teacher:</b> {{ student.teacher.username }}</p>
+        </div>
+        
+        <div>
+            <a href="/download-marksheet-pdf/" class="btn-download">
+                📄 Download Marksheet (PDF)
+            </a>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <!-- MARKS SECTION -->
+        <div class="card">
+            <h3>📊 Academic Performance</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Marks Obtained</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in marks %}
+                    <tr>
+                        <td>{{ m.subject }}</td>
+                        <td>{{ m.marks }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" style="text-align: center; color: var(--text-secondary);">
+                            No marks available yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h3 class="section-spacer">📈 Performance Chart</h3>
+            {% if marks_chart %}
+                <img src="data:image/png;base64,{{ marks_chart }}" alt="Marks Chart">
+            {% else %}
+                <p style="text-align: center; color: var(--text-secondary);">Chart not available.</p>
+            {% endif %}
+        </div>
+
+        <!-- ATTENDANCE SECTION -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                <h3 style="margin: 0; border: none; padding: 0;">📅 Attendance</h3>
+                <span class="badge">{{ attendance_percent }}% Overall</span>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in attendance_page %}
+                    <tr>
+                        <td>{{ a.date|date:"M d, Y" }}</td>
+                        <td style="font-weight: 700; color: {% if a.status == 'Present' %}#15803d{% else %}#b91c1c{% endif %};">
+                            {{ a.status }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" style="text-align:center; color: var(--text-secondary);">
+                            No attendance records found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination Buttons -->
+            <div class="pagination">
+                {% if attendance_page.has_previous %}
+                    <a href="?page={{ attendance_page.previous_page_number }}" class="btn-page">
+                        ← Prev
+                    </a>
+                {% endif %}
+
+                <span>
+                    Page {{ attendance_page.number }} of {{ attendance_page.paginator.num_pages }}
+                </span>
+
+                {% if attendance_page.has_next %}
+                    <a href="?page={{ attendance_page.next_page_number }}" class="btn-page">
+                        Next →
+                    </a>
+                {% endif %}
+            </div>
+
+            <h3 class="section-spacer">📉 Attendance Trend</h3>
+            {% if attendance_chart %}
+                <img src="data:image/png;base64,{{ attendance_chart }}" alt="Attendance Chart">
+            {% else %}
+                <p style="text-align: center; color: var(--text-secondary);">Chart not available.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+{% include "footer.html" %}
+
+</body>
+</html>

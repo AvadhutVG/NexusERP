@@ -1,0 +1,120 @@
+{% include "navbar.html" %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mark Attendance</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:0;
+    padding-top: 70px;
+    padding-bottom: 40px; 
+}
+
+.container{
+    width:70%;
+    margin:30px auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:10px;
+    border:1px solid #ddd;
+}
+
+th{
+    background:#007bff;
+    color:white;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    background:#28a745;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* center roll numbers */
+td:first-child {
+    text-align: center;
+}
+
+/* center checkboxes */
+td:last-child {
+    text-align: center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Mark Attendance for {{ date|date:"M d, Y" }}</h2>
+
+<form method="POST">
+{% csrf_token %}
+<div style="margin-bottom:10px;">
+    <input type="checkbox" id="selectAll">
+    <label for="selectAll"><b>Select All Students</b></label>
+</div>
+
+<table>
+<tr>
+<th>Roll No</th>
+<th>Name</th>
+<th>Present?</th>
+</tr>
+
+
+{% for s in students %}
+<tr>
+<td>{{ s.roll_no }}</td>
+<td>{{ s.name }}</td>
+<td>
+<input type="checkbox" name="present" value="{{ s.id }}">
+</td>
+</tr>
+{% endfor %}
+</table>
+
+<br>
+<button type="submit">Save Attendance</button>
+</form>
+
+<br>
+<a href="/attendance/">Cancel</a>
+
+</div>
+</div>
+{% include "footer.html" %}
+<script>
+document.getElementById("selectAll").addEventListener("click", function(){
+    let checkboxes = document.getElementsByName("present");
+
+    for(let box of checkboxes){
+        box.checked = this.checked;
+    }
+});
+</script>
+
+</body>
+</html>

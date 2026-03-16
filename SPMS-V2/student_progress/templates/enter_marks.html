@@ -1,0 +1,221 @@
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Marks - Student Progress System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* High Contrast Color Palette */
+            --primary: #3730a3; 
+            --primary-hover: #312e81;
+            
+            --bg-body: #F8FAFC;
+            --bg-card: #FFFFFF;
+            
+            /* Text Colors */
+            --text-main: #020617; 
+            --text-secondary: #334155; 
+            
+            --border-color: #94a3b8;
+            --radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Global Reset */
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding-top: 90px;
+            padding-bottom: 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #000000;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* ===== TABLE STYLES ===== */
+        .table-container {
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.75rem 1rem; /* Slightly less padding to accommodate inputs */
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            vertical-align: middle;
+            font-weight: 600;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* Input inside table */
+        td input[type="number"] {
+            width: 100px;
+            padding: 0.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        td input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(55, 48, 163, 0.2);
+        }
+
+        /* ===== BUTTONS ===== */
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Back Link */
+        .back-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+{% include "navbar.html" %}
+
+<div class="container">
+    <div class="card">
+
+        <h2>Enter Marks</h2>
+        <p class="subtitle">Subject: {{ subject.subject_name }}</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Roll No</th>
+                            <th style="width: 50%;">Student Name</th>
+                            <th style="width: 30%;">Marks (0–100)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in students %}
+                        <tr>
+                            <td>{{ s.roll_no }}</td>
+                            <td>{{ s.name }}</td>
+                            <td>
+                                <input type="number"
+                                       name="marks_{{ s.id }}"
+                                       min="0"
+                                       max="100"
+                                       value="{{ marks_dict|get_item:s.id }}">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="submit">Save Marks</button>
+        </form>
+
+        <a href="/subjects/" class="back-link">
+            ← Cancel and Return to Subjects
+        </a>
+
+    </div>
+</div>
+
+{% include "footer.html" %}
+
+</body>
+</html>
